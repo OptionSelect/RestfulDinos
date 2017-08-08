@@ -59,23 +59,14 @@ app.post('/api/dinosaurs/', (req, res) => {
 
 app.put('/api/dinosaurs/:id', (req, res) => {
   const dinoId = parseInt(req.params.id)
-  const myDino = {}
-  db.one('SELECT * FROM "dinos" WHERE id = $(id)', { id: dinoId }).then(data => {
-    myDino = data
+  db.result(`UPDATE "dinos" SET "size" = 'BIG' WHERE "id"=$1`, dinoId).then(data => {
+    res.send('Successfully updated.')
   })
-  const updatedino = {
-    name: req.body.name || myDino.name,
-    color: req.body.color || myDino.color,
-    size: req.body.size || myDino.size,
-    habitats: req.body.habitats || myDino.habitats
-  }
-
-  db.one(`update dinos set name = $(name), color = $(color), size = $(size), habitats = $(habitats)`, updatedino)
 })
 
 app.delete('/api/dinosaurs/:id', (req, res) => {
   const dinoId = parseInt(req.params.id)
-  db.result('DELETE * FROM "dinos" where id = $(id)', { id: dinoId }).then(data => {
+  db.result('DELETE FROM "dinos" WHERE id = $(id)', { id: dinoId }).then(data => {
     res.send('Mission complete.')
   })
 })
