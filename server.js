@@ -17,7 +17,7 @@ app.use(express.static('public'))
 
 app.get('/', (req, res) => {
   db.any('SELECT * FROM "dinos"').then(data => {
-    res.render('index', { dinos: data })
+    res.render('index')
   })
 })
 
@@ -41,12 +41,39 @@ app.get('/api/dinosaurs/:id', (req, res) => {
   })
 })
 
+app.get('/dino/:id', (req, res) => {
+  res.render('dino')
+})
+
 app.get('/api/dinosaurs/:id/habitats', (req, res) => {
   const dinoId = parseInt(req.params.id)
   db.one('SELECT * FROM "dinos" WHERE id = $(id)', { id: dinoId }).then(data => {
     const myDino = data.habitats
     res.json(myDino)
   })
+})
+
+app.get('/adddino', (req, res) => {
+  res.render('newdino')
+})
+
+app.post('/adddino/', (req, res) => {
+  const newdino = {
+    name: req.body.dinoname,
+    color: req.body.color,
+    size: req.body.size,
+    habitats: req.body.habitats
+  }
+
+  db
+    .one(
+      `INSERT INTO "dinos" ("name", "color", "size", "habitats") VALUES($(name), $(color), $(size), $(habitats))
+      RETURNING id`,
+      newdino
+    )
+    .then(newdino => {
+      res.redirect('/')
+    })
 })
 
 app.post('/api/dinosaurs/', (req, res) => {

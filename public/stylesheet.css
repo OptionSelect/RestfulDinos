@@ -9,6 +9,11 @@ ul {
   padding-left: 0;
 }
 
+a {
+  display: block;
+  text-align: center;
+}
+
 li {
   margin: 5px;
 }

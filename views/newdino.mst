@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>NEW ROBOT</title>
+  </head>
+  <body>
+    <p><i>Sorry, that dinosaur does not exist at this time. However, we can build him better.</i></p>
+    <div class="container">
+      <h2>You've Discovered a New Species!</h2>
+      <h3>Please Enter the Following:</h3>
+      <form class="dinoform" action="/adddino" method="post">
+        <p><input type="text" name="dinoname" value="" placeholder="Dinosaur Name"></p>
+        <p><input type="text" name="color" value="" placeholder="Color"></p>
+        <p><input type="text" name="size" value="" placeholder="Size"></p>
+        <p><input type="text" name="habitats" value="" placeholder="Habitats"></p>
+        <button type="submit" name="button">Submit</button>
+      </form>
+    </div>
+  </body>
+</html>
