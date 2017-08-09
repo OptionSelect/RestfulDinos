@@ -3,8 +3,14 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <link rel="stylesheet" href="stylesheet.css">
   </head>
   <body>
-
+    <div class="container">
+      <h1>Welcome to Dinoville!</h1>
+      <ul id = "dinolist">
+      </ul>
+    </div>
+    <script src="main.js" charset="utf-8"></script>
   </body>
 </html>

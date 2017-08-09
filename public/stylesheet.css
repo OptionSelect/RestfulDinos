@@ -1,0 +1,14 @@
+img {
+  height: 200px;
+  width: 200px;
+}
+
+ul {
+  display: flex;
+  list-style: none;
+  padding-left: 0;
+}
+
+li {
+  margin: 5px;
+}

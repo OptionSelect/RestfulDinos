@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const mustacheExpress = require('mustache-express')
 const pgp = require('pg-promise')()
 const db = pgp({ database: 'dinobase' })
 const bodyParser = require('body-parser')
@@ -7,13 +8,23 @@ const bodyParser = require('body-parser')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+app.engine('mst', mustacheExpress())
+
 app.set('views', './views')
 app.set('view engine', 'mst')
 
 app.use(express.static('public'))
 
 app.get('/', (req, res) => {
-  res.send('Peep them dinos')
+  db.any('SELECT * FROM "dinos"').then(data => {
+    res.render('index', { dinos: data })
+  })
+})
+
+app.get('/dinos/:id', (req, res) => {
+  db.any('SELECT * FROM "dinos"').then(data => {
+    res.render('index', { dinos: data })
+  })
 })
 
 app.get('/api/dinosaurs', (req, res) => {
@@ -59,7 +70,10 @@ app.post('/api/dinosaurs/', (req, res) => {
 
 app.put('/api/dinosaurs/:id', (req, res) => {
   const dinoId = parseInt(req.params.id)
-  db.result(`UPDATE "dinos" SET "size" = 'BIG' WHERE "id"=$1`, dinoId).then(data => {
+  db.result(`UPDATE "dinos" SET "size" = 'BIG' WHERE "id"=$1`, dinoId)
+  db.result(`UPDATE "dinos" SET "color" = 'RED' WHERE "id"=$1`, dinoId)
+  db.result(`UPDATE "dinos" SET "name" = 'BILLY FUSSILLO' WHERE "id"=$1`, dinoId)
+  db.result(`UPDATE "dinos" SET "habitats" = 'LAVA' WHERE "id"=$1`, dinoId).then(data => {
     res.send('Successfully updated.')
   })
 })
