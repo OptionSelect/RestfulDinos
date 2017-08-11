@@ -18,7 +18,6 @@ function fetchinstein() {
       habitats: document.querySelector('input[name=habitats]').value
     })
   }).then(resp => {
-    console.log(resp)
     window.location = `/dino/${id}`
   })
 }

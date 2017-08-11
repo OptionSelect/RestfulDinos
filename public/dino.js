@@ -4,6 +4,17 @@ const urlsplit = url.split('/')
 const last = urlsplit[urlsplit.length - 1]
 const id = parseInt(last)
 
+function diedino() {
+  let conf = window.confirm('Kill dino?!')
+  if (conf) {
+    fetch(`/api/dinosaurs/delete/${id}`, { method: 'DELETE' }).then(data => {
+      window.location = `/`
+    })
+  } else {
+    window.location = `/dino/${id}`
+  }
+}
+
 fetch(`/api/dinosaurs/${id}`).then(resp => resp.json()).then(data => {
   console.log(data)
   let name = document.createElement('p')
@@ -25,10 +36,17 @@ fetch(`/api/dinosaurs/${id}`).then(resp => resp.json()).then(data => {
   editLink.textContent = 'Edit'
   editLink.href = `/editdino/${data.id}`
 
+  let del = document.createElement('button')
+  del.onclick = diedino
+  del.textContent = 'Delete This Dino'
+  del.type = 'button'
+  del.name = 'button'
+
   wrapper.appendChild(name)
   wrapper.appendChild(image)
   wrapper.appendChild(color)
   wrapper.appendChild(size)
   wrapper.appendChild(habitats)
   wrapper.appendChild(editLink)
+  wrapper.appendChild(del)
 })

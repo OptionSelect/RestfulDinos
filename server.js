@@ -122,11 +122,15 @@ app.put('/api/dinosaurs/:id', (req, res) => {
     })
 })
 
-app.delete('/api/dinosaurs/:id', (req, res) => {
+app.delete('/api/dinosaurs/delete/:id', (req, res) => {
   const dinoId = parseInt(req.params.id)
-  db.result('DELETE FROM "dinos" WHERE id = $(id)', { id: dinoId }).then(data => {
-    res.send('Mission complete.')
-  })
+  db
+    .result('DELETE FROM "dinos" WHERE id = $(id)', {
+      id: dinoId
+    })
+    .then(data => {
+      res.json({ status: 'ok' })
+    })
 })
 
 app.listen(3000, (req, res) => {
