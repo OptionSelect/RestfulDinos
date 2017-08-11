@@ -8,6 +8,7 @@ const bodyParser = require('body-parser')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
 app.engine('mst', mustacheExpress())
 
 app.set('views', './views')
@@ -62,12 +63,13 @@ app.post('/adddino/', (req, res) => {
     name: req.body.dinoname,
     color: req.body.color,
     size: req.body.size,
-    habitats: req.body.habitats
+    habitats: req.body.habitats,
+    pic: 'https://www.ucl.ac.uk/prospective-students/graduate/images/test/placeholder-200x200'
   }
 
   db
     .one(
-      `INSERT INTO "dinos" ("name", "color", "size", "habitats") VALUES($(name), $(color), $(size), $(habitats))
+      `INSERT INTO "dinos" ("name", "color", "size", "habitats", "pic") VALUES($(name), $(color), $(size), $(habitats), $(pic))
       RETURNING id`,
       newdino
     )
@@ -95,14 +97,29 @@ app.post('/api/dinosaurs/', (req, res) => {
     })
 })
 
+app.get('/editdino/:id', (req, res) => {
+  res.render('editdino')
+})
+
 app.put('/api/dinosaurs/:id', (req, res) => {
-  const dinoId = parseInt(req.params.id)
-  db.result(`UPDATE "dinos" SET "size" = 'BIG' WHERE "id"=$1`, dinoId)
-  db.result(`UPDATE "dinos" SET "color" = 'RED' WHERE "id"=$1`, dinoId)
-  db.result(`UPDATE "dinos" SET "name" = 'BILLY FUSSILLO' WHERE "id"=$1`, dinoId)
-  db.result(`UPDATE "dinos" SET "habitats" = 'LAVA' WHERE "id"=$1`, dinoId).then(data => {
-    res.send('Successfully updated.')
-  })
+  const dinoid = parseInt(req.params.id)
+  console.log(req.body)
+  const updatedino = {
+    id: dinoid,
+    name: req.body.name,
+    color: req.body.color,
+    size: req.body.size,
+    habitats: req.body.habitats
+  }
+  console.log(updatedino)
+  db
+    .result(
+      `update dinos set (name, color, size, habitats) = ($(name), $(color), $(size), $(habitats)) where id = $(id)`,
+      updatedino
+    )
+    .then(data => {
+      res.json(updatedino)
+    })
 })
 
 app.delete('/api/dinosaurs/:id', (req, res) => {

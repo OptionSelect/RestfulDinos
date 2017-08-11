@@ -17,3 +17,13 @@ a {
 li {
   margin: 5px;
 }
+form {
+  display: flex;
+  justify-content: center;
+}
+
+button {
+  width: 200px;
+  height: 100px;
+  justify-content: center;
+}

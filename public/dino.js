@@ -21,9 +21,14 @@ fetch(`/api/dinosaurs/${id}`).then(resp => resp.json()).then(data => {
   let habitats = document.createElement('p')
   habitats.textContent = `Habitats: ${data.habitats}`
 
+  let editLink = document.createElement('a')
+  editLink.textContent = 'Edit'
+  editLink.href = `/editdino/${data.id}`
+
   wrapper.appendChild(name)
   wrapper.appendChild(image)
   wrapper.appendChild(color)
   wrapper.appendChild(size)
   wrapper.appendChild(habitats)
+  wrapper.appendChild(editLink)
 })

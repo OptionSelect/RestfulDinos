@@ -10,6 +10,9 @@
       <h1>Welcome to Dinoville!</h1>
       <ul id = "dinolist">
       </ul>
+      <form class="" action="/adddino" method="get">
+        <button type="submit" name="button">Click to Create a New Dinosaur!</button>
+      </form>
     </div>
     <script src="/main.js" charset="utf-8"></script>
   </body>
